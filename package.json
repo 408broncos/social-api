@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "watch": "nodemon index.js",
+    "seed": "node utils/seed.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +22,9 @@
   "homepage": "https://github.com/408broncos/social-api#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.2.0"
+    "moment": "^2.29.4",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.0",
+    "nodemon": "^2.0.22"
   }
 }
