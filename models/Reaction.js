@@ -1,4 +1,4 @@
-const moment = require('moment');
+const format = require('../utils/dataFormat.js');
 
 const { Schema, Types } = require('mongoose');
 
@@ -20,7 +20,7 @@ const reactionSchema = new Schema(
       createdAt: {
         type: Date,
         default: Date.now,
-        get: (timestamp) => moment(timestamp).format('MMM Do, YYYY [at] hh:mm a'),
+        get: (date) => format(date)
       },
     },
     {

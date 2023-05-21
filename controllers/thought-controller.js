@@ -1,18 +1,22 @@
 const { Thought, User } = require('../models');
 
 const thoughtsController = {
-    thoughts(req, res) {
-      Thought.find()
-        .sort({ createdAt: -1 })
-        .then((dbThoughtData) => {
-          res.json(dbThoughtData);
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(500).json(err);
-        });
-    },
-  
+  thoughts(req, res) {
+    Thought.find()
+      .populate({
+        path: 'reactions',
+        select: '-__v',
+      })
+      .select('-__v')
+      .sort({ createdAt: -1 })
+      .then((dbThoughtData) => {
+        res.json(dbThoughtData);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },  
     singleThought(req, res) {
       Thought.findOne({ _id: req.params.thoughtId })
         .then((dbThoughtData) => {
@@ -76,7 +80,7 @@ const thoughtsController = {
         })
         .then((dbUserData) => {
           if (!dbUserData) {
-            return res.status(404).json({ message: 'Thought has been created but there is no associated id.' });
+            return res.status(404).json({ message: 'Thought has been deleted but there is no associated id.' });
           }
           res.json({ message: 'Thought has been deleted!' });
         })

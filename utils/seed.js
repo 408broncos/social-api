@@ -3,61 +3,70 @@ const { User, Thought, Reaction } = require('../models');
 
 const users = [
     {
-        username: 'Barry1',
-        email: 'barry11@gmail.com'
+        username: 'Barry',
+        email: 'barry1@gmail.com'
     },
     {
-        username: 'Catalina1',
-        email: 'catalina11@gmail.com'
+        username: 'Catalina',
+        email: 'catalina1@gmail.com'
     },
     {
-        username: 'Doris1',
-        email: 'doris11@gmail.com'
-    },
-    {
-        username: 'Eric1',
-        email: 'eric11@gmail.com'
-    },
-    {
-        username: 'Favio1',
-        email: 'favio11@gmail.com'
+        username: 'Doris',
+        email: 'doris1@gmail.com'
     },
     {
         username: 'Gary',
-        email: 'gary11@gmail.com'
+        email: 'gary1@gmail.com'
     },
     {
-        username: 'Harry1',
-        email: 'harry11@gmail.com'
+        username: 'Harry',
+        email: 'harry1@gmail.com'
     },
     {
         username: 'Irene',
-        email: 'irene11@gmail.com'
+        email: 'irene1@gmail.com'
     },
     {
-        username: 'Jordan1',
-        email: 'jordan11@gmail.com'
+        username: 'Jordan',
+        email: 'jordan1@gmail.com'
+    }
+];
+
+const thoughts = [
+    {
+        thoughtText: 'I like bananas',
+                
+        username: 'Barry',
     },
     {
-        username: 'Kate1',
-        email: 'kate11@gmail.com'
+        thoughtText: 'can we go bowling',
+                
+        username: 'Catalina',
     },
     {
-        username: 'Larry1',
-        email: 'larry11@gmail.com'
+        thoughtText: 'wanna meet at starbucks',
+                
+        username: 'Doris',
     },
     {
-        username: 'Mary1',
-        email: 'mary11@gmail.com'
+        thoughtText: 'I dislike marvel',
+                
+        username: 'Gary',
     },
     {
-        username: 'Nate1',
-        email: 'nate11@gmail.com',
-        thoughtText: 'How many jelly beans are there in the world',
+        thoughtText: 'lets go skydiving',
+                
+        username: 'Harry',
     },
     {
-        username: 'Oscar1',
-        email: 'oscar11@gmail.com'
+        thoughtText: 'how many birds are in the sky',
+                
+        username: 'Irene',
+    },
+    {
+        thoughtText: 'i love to eat pasta',
+                
+        username: 'Jordan',
     },
 ];
 
@@ -70,20 +79,23 @@ connection.on('error', (err) => {
 connection.once('open', async () => {
     console.log('Connected to MongoDB');
     
-    try {
-        await Thought.deleteMany({});
-        await User.deleteMany({});
-        const seededUsers = await User.insertMany(users);
+    
+  try {
+    await Thought.deleteMany({});
+    await User.deleteMany({});
 
-        for (const user of seededUsers) {
-            const friendCount = Math.floor(Math.random() * (10 - 1 + 1) + 1);
-            await User.findByIdAndUpdate(user._id, { friendCount: friendCount });
-          }
+    const seededUsers = await User.insertMany(users);
 
-        console.log('Seeding complete! 🌱');
-    } catch (error) {
-        console.error('Error seeding data:', error);
-    } finally {
-        process.exit(0);
+    for (const thought of thoughts) {
+      const user = seededUsers.find((user) => user.username === thought.username);
+      thought.userId = user._id;
+      await Thought.create(thought);
     }
+
+    console.log('Seeding complete! 🌱');
+  } catch (error) {
+    console.error('Error seeding data:', error);
+  } finally {
+    process.exit(0);
+  }
 });
