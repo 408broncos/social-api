@@ -19,6 +19,10 @@ For this project I was asked to create an API that would store social networking
 
 
 
+https://github.com/408broncos/social-api/assets/126821868/529f4578-8db8-45fa-af38-ef1b8fd572b6
+
+
+
 ## Code Examples
 
 Here I will be showing an example of a section I was stuck on but eventually discovered the solution to:
